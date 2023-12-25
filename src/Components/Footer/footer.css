@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Inter:wght@600&display=swap');
+
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 97%;
+    height: 40px;
+    position: relative;
+    bottom: 0;
+    padding: 10px 20px;
+    border: 1px solid grey;
+    z-index: 1000;
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.3);
+    background-size: 130% 100%;
+    background-color: #FF3CAC;
+    background-image: linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+
+}
+
+.footer-container p {
+    margin: 0;
+}
+
+.footer-container nav ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-container nav li {
+    font-family: 'Amatic SC', sans-serif;
+    font-size: 40px;
+    margin-right: 15px;
+    padding-right: 50px;
+    cursor: pointer;
+}
+
+.footer-container nav li:hover {
+    color:aliceblue;
+}

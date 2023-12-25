@@ -1,0 +1,67 @@
+[
+    {
+    "id": "14996",
+    "english": "sun",
+    "transcription": "[sʌn]",
+    "russian": "солнце",
+    "tags": "А1",
+    "tags_json": "[\"b2\"]"
+    },
+    {
+    "id": "15016",
+    "english": "apple",
+    "transcription": "[æpl]",
+    "russian": "яблоко",
+    "tags": "А1",
+    "tags_json": "[\"u0444u0440u0443u043au0442u044b\"]"
+    },
+    {
+    "id": "15017",
+    "english": "knit",
+    "transcription": "[nit]",
+    "russian": " вязать",
+    "tags": "А2",
+    "tags_json": "[\"a2\"]"
+    },
+    {
+    "id": "15060",
+    "english": "differ",
+    "transcription": " [dɪfə]",
+    "russian": "отличаться",
+    "tags": "B1",
+    "tags_json": "[]"
+    },
+    {
+    "id": "15069",
+    "english": "travel",
+    "transcription": " [trævl]",
+    "russian": "путешествовать",
+    "tags": "A1",
+    "tags_json": "[]"
+    },
+    {
+    "id": "15066",
+    "english": "love",
+    "transcription": " [lʌv]",
+    "russian": "любить",
+    "tags": "A1",
+    "tags_json": "[]"
+    },
+    {
+    "id": "15011",
+    "english": "cat",
+    "transcription": " [kæt]",
+    "russian": "кот",
+    "tags": "A1",
+    "tags_json": "[]"
+    },
+    {
+    "id": "15456",
+    "english": "infant",
+    "transcription": " [ɪnfənt]",
+    "russian": "ребенок",
+    "tags": "B2",
+    "tags_json": "[]"
+    }
+
+]
