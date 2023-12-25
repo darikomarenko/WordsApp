@@ -1,66 +1,72 @@
-@import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Inter:wght@600&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Inter:wght@600&display=swap");
 
 .header-container {
-      display: flex;
-      justify-content:space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      width: 97%;
-      height: 60px;
-      padding: 10px 20px;
-      border: 1px solid grey;
-      z-index: 1000;
-      box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.3);
-      background-size: 130% 100%;
-      background-color: #FF3CAC;
-      background-image: linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  width: 97%;
+  height: 60px;
+  padding: 10px 20px;
+  border: 1px solid grey;
+  z-index: 1000;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.3);
+  background-size: 130% 100%;
+  background-color: #ff3cac;
+  background-image: linear-gradient(
+    225deg,
+    #ff3cac 0%,
+    #784ba0 50%,
+    #2b86c5 100%
+  );
+}
 
-    }
-  
+.header-logo {
+  width: 60px;
+  margin-left: 0%;
+}
 
-    
-  .header-logo {
-      width: 60px;
-      margin-left: 0%;
-    }
+.header-nav {
+  margin-left: 20px;
+}
 
-    
-  .header-nav {
-      margin-left: 20px;
-    }
-    
-  .header-nav ul {
-      display: flex;
-      list-style: none;
-      margin: 0;
-      padding: 0;
-    }
-    
-  .header-nav li {
-    font-family: 'Amatic SC', sans-serif;
-    font-size: 48px;
-    margin: 10px;
-    padding-right: 50px;
-    cursor: pointer;
-    }
-    
-    
-  .logout-button {
-      font-family: 'Amatic SC', sans-serif;
-      padding: 10px 20px;
-      margin-bottom: 5px;
-      font-size: x-large;
-      background-color: #333;
-      color: #fff;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-  
-  .header-nav li:hover {
-    color:aliceblue;
-  }
-  
-    
+.header-nav ul {
+  display: flex;
+  text-decoration: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.header-nav li {
+  font-family: "Amatic SC", sans-serif;
+  font-size: 48px;
+  margin: 10px;
+  padding-right: 50px;
+  cursor: pointer;
+}
+
+.logout-button {
+  font-family: "Amatic SC", sans-serif;
+  padding: 10px 20px;
+  margin-bottom: 5px;
+  font-size: x-large;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.header-nav li:hover {
+  color: aliceblue;
+}
+
+a,
+a:visited,
+a:hover,
+a:active {
+  text-decoration: none;
+  color: black;
+}

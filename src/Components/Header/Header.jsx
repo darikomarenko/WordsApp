@@ -1,19 +1,28 @@
-import React from 'react';
-import logo from './logo.png';
-import './header.css';
+import React from "react";
+import logo from "./logo.png";
+import "./header.css";
+import { Link } from "react-router-dom";
 
 export default function Header() {
-    return (
+  return (
     <header className="header-container">
-        <img className="header-logo" src={logo} alt="Логотип приложения"/>
-        <nav className="header-nav">
+      <Link to="/">
+        <img className="header-logo" src={logo} alt="Логотип приложения" />
+      </Link>
+      <nav className="header-nav">
         <ul>
-            <li>Главная</li>
-            <li>Игра</li>
-            <li>Профиль</li>
+          <li>
+            <Link to="/">Главная</Link>
+          </li>
+          <li>
+            <Link to="game">Играть</Link>
+          </li>
+          <li>
+            <Link to="*">Профиль</Link>
+          </li>
         </ul>
-        </nav>
-        <button className="logout-button">Выйти</button>
+      </nav>
+      <button className="logout-button">Выйти</button>
     </header>
-    );
-};
+  );
+}
