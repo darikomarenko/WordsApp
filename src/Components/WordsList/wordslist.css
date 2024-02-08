@@ -1,53 +1,52 @@
 @import url('https://fonts.googleapis.com/css2?family=Amatic+SC&family=Inter:wght@600&display=swap');
 
 table {
-    width: 100%;
-    background-color: #fff;
-    margin-bottom: 15px;
-    margin-top: 10px;
-    margin-left: 10px;
+  width: 100%;
+  background-color: #fff;
+  margin-bottom: 15px;
+  margin-top: 10px;
+  margin-left: 10px;
 }
 
 th,
 td {
-    padding: 10px;
-    border: 1px solid #ccc;
-    text-align: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
 }
 
 th {
-    background-color: #eee;
+  background-color: #eee;
 }
 
 tr:nth-child(even) {
-    background-color: #f2f2f2;
+  background-color: #f2f2f2;
 }
-
 
 .change-button,
 .delete-button,
 .save-button,
 .cancel-button {
-    font-family: 'Amatic SC', sans-serif;
-    padding: 2px 20px;
-    margin-bottom: 5px;
-    margin-right: 1px;
-    margin-left: 1px;
-    font-size: x-large;
-    background-color: #333;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
+  font-family: 'Amatic SC', sans-serif;
+  padding: 2px 10px;
+  margin-bottom: 5px;
+  margin-right: 1px;
+  margin-left: 1px;
+  font-size: x-large;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 input[type='text'] {
-    width: 100%;
-    padding: 5px;
-    margin: 5px 0;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 5px;
+  margin: 5px 0;
+  box-sizing: border-box;
 }
 
 .th {
-    font-family: 'Amatic SC', sans-serif;
+  font-family: 'Amatic SC', sans-serif;
 }
