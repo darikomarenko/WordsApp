@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { FaEdit, FaTrash } from 'react-icons/fa';
 import './wordslist.css';
 
 const Words = ({ data }) => {
