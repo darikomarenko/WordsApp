@@ -1,11 +1,19 @@
 import React, { useState, useCallback, useEffect } from 'react';
+import Loader from '../Loader/Loader';
 import PlayCard from '../PlayCard/PlayCard';
 import './game.css';
 
-function Game({ data, disableFirstAndLast, defaultIndex }) {
+function Game({ disableFirstAndLast, defaultIndex }) {
   const [currentIndex, setCurrentIndex] = useState(defaultIndex || 0);
   const [flipped, setFlipped] = useState(false);
   const [learnedCount, setLearnedCount] = useState(0);
+  const [words, setWords] = useState([]);
+
+  useEffect(() => {
+    fetch('https://itgirlschool.justmakeit.ru/api/words')
+      .then((response) => response.json())
+      .then((data) => setWords(data));
+  }, []);
 
   const incrementLearnedCount = () => {
     setLearnedCount((prevCount) => prevCount + 1);
@@ -16,14 +24,14 @@ function Game({ data, disableFirstAndLast, defaultIndex }) {
       setCurrentIndex(currentIndex - 1);
     } else {
       if (disableFirstAndLast) {
-        setCurrentIndex(data.length - 1);
+        setCurrentIndex(words.length - 1);
       }
     }
     setFlipped(false);
-  }, [currentIndex, disableFirstAndLast, data]);
+  }, [currentIndex, disableFirstAndLast, words]);
 
   const handleNextClick = useCallback(() => {
-    if (currentIndex < data.length - 1) {
+    if (currentIndex < words.length - 1) {
       setCurrentIndex(currentIndex + 1);
     } else {
       if (disableFirstAndLast) {
@@ -31,7 +39,7 @@ function Game({ data, disableFirstAndLast, defaultIndex }) {
       }
     }
     setFlipped(false);
-  }, [currentIndex, disableFirstAndLast, data]);
+  }, [currentIndex, disableFirstAndLast, words]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -51,19 +59,19 @@ function Game({ data, disableFirstAndLast, defaultIndex }) {
 
   return (
     <div className="game">
-      {data[currentIndex] ? (
+      {words[currentIndex] ? (
         <PlayCard
           key={currentIndex}
-          word={data[currentIndex].word}
-          english={data[currentIndex].english}
-          transcription={data[currentIndex].transcription}
-          russian={data[currentIndex].russian}
+          word={words[currentIndex].word}
+          english={words[currentIndex].english}
+          transcription={words[currentIndex].transcription}
+          russian={words[currentIndex].russian}
           flipped={flipped}
           setFlipped={setFlipped}
           incrementLearnedCount={incrementLearnedCount}
         />
       ) : (
-        'Ooops, no data'
+        <Loader />
       )}
       <div className="buttons">
         <button
@@ -74,13 +82,13 @@ function Game({ data, disableFirstAndLast, defaultIndex }) {
           &#8592;
         </button>
         <div className="current-slide">
-          {currentIndex + 1}/{data.length}
+          {currentIndex + 1}/{words.length}
         </div>
         <button
           className="next"
           title="Следующее слово"
           onClick={handleNextClick}
-          disabled={!disableFirstAndLast && currentIndex === data.length - 1}>
+          disabled={!disableFirstAndLast && currentIndex === words.length - 1}>
           &#8594;
         </button>
       </div>
@@ -89,6 +97,6 @@ function Game({ data, disableFirstAndLast, defaultIndex }) {
   );
 }
 
-Game.defaultProps = { data: [], defaultIndex: 0 };
+Game.defaultProps = { words: [], defaultIndex: 0 };
 
 export default Game;

@@ -1,7 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './playcard.css';
 
-function PlayCard({ english = 'Ooops, no Word', transcription, russian, incrementLearnedCount }) {
+function PlayCard({
+  word,
+  english = 'Ooops, no Word',
+  transcription,
+  russian,
+  incrementLearnedCount,
+}) {
   const [flipped, setFlipped] = useState(false);
   const [counted, setCounted] = useState(false);
   const cardRef = useRef(null);
@@ -29,6 +35,7 @@ function PlayCard({ english = 'Ooops, no Word', transcription, russian, incremen
         title="Нажмите на карточку, чтобы увидеть перевод"
         onClick={handleFlip}>
         <div className="front">
+          <div className="word">{word}</div>
           <div className="english">{english}</div>
           <div className="transcription">{transcription}</div>
         </div>

@@ -24,6 +24,7 @@ tr:nth-child(even) {
 }
 
 .change-button,
+.add-button,
 .delete-button,
 .save-button,
 .cancel-button {
@@ -40,6 +41,12 @@ tr:nth-child(even) {
   cursor: pointer;
 }
 
+.save-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 input[type='text'] {
   width: 100%;
   padding: 5px;
@@ -49,4 +56,26 @@ input[type='text'] {
 
 .th {
   font-family: 'Amatic SC', sans-serif;
+}
+
+.MessageContainer {
+  position: fixed;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  height: 20%;
+  left: 50%;
+  top: 50%;
+  font-weight: bold;
+  font-size: 18px;
+  transform: translate(-50%, -50%);
+  box-shadow: 10px 10px 10px 0px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(-45deg, #c2c2c2, #ffffff, #cfcfcf, #ffffff);
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(128, 128, 128);
+  border-radius: 10px;
+  background-size: 400% 400%;
+  animation: gradient 3s ease infinite;
 }

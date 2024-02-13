@@ -1,15 +1,129 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
+import { WordsContext } from '../../context/WordsContext';
+import Error from '../Error/Error';
+import Loader from '../Loader/Loader';
 import './wordslist.css';
 
-const Words = ({ data }) => {
-  const [isEditMode, setIsEditMode] = useState(false);
-  const [editedWords, setEditedWords] = useState([]);
-  const [buttonDisabled, setButtonDisabled] = useState([]);
-  const [message, setMessage] = useState('');
+function AddWordRow({ onSubmit }) {
+  const [newWord, setNewWord] = useState({ english: '', transcription: '', russian: '' });
+  const [inputErrors, setInputErrors] = useState({
+    english: true,
+    transcription: true,
+    russian: true,
+  });
 
-  useEffect(() => {
-    setButtonDisabled(data.map(() => false));
-  }, [data]);
+  const handleInputChange = (event, property) => {
+    const value = event.target.value;
+    setNewWord({ ...newWord, [property]: value });
+
+    const updatedErrors = { ...inputErrors, [property]: value.trim().length === 0 };
+    setInputErrors(updatedErrors);
+  };
+
+  const handleSubmit = () => {
+    onSubmit({
+      english: newWord.english.trim(),
+      transcription: newWord.transcription.trim(),
+      russian: newWord.russian.trim(),
+    });
+    setNewWord({ english: '', transcription: '', russian: '' });
+  };
+
+  const isFormValid = () => {
+    return (
+      Object.values(inputErrors).every((error) => !error) &&
+      Object.values(newWord).every((value) => value !== '')
+    );
+  };
+
+  return (
+    <tr>
+      {['english', 'transcription', 'russian'].map((property) => (
+        <td key={property}>
+          <input
+            type="text"
+            value={newWord[property]}
+            onChange={(e) => handleInputChange(e, property)}
+          />
+        </td>
+      ))}
+      <td>
+        <button className={`add-button${isFormValid() ? '' : ' disabled'}`} onClick={handleSubmit}>
+          Добавить слово
+        </button>
+      </td>
+    </tr>
+  );
+}
+
+function WordRow({ id, word, onSave, onCancel }) {
+  const [editedWord, setEditedWord] = useState({ ...word });
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  const [inputErrors, setInputErrors] = useState({
+    english: false,
+    transcription: false,
+    russian: false,
+  });
+
+  const handleInputChange = (event, property) => {
+    const value = event.target.value;
+    setEditedWord({ ...editedWord, [property]: value });
+    const updatedErrors = { ...inputErrors, [property]: value.trim() === '' };
+    setInputErrors(updatedErrors);
+    const hasEmptyInput = Object.values(updatedErrors).some((error) => error);
+    const isModified = Object.keys(editedWord).some((key) => editedWord[key] !== word[key]);
+    setButtonDisabled(hasEmptyInput || !isModified);
+  };
+
+  return (
+    <tr>
+      {['english', 'transcription', 'russian'].map((property) => (
+        <td key={property}>
+          <input
+            type="text"
+            value={editedWord[property]}
+            onChange={(e) => handleInputChange(e, property)}
+            style={{ borderColor: inputErrors[property] ? 'red' : '' }}
+          />
+        </td>
+      ))}
+      <td>
+        <button
+          className={`save-button${buttonDisabled ? ' disabled' : ''}`}
+          onClick={() => onSave(id, editedWord)}
+          disabled={buttonDisabled}>
+          Сохранить
+        </button>
+        <button className="cancel-button" onClick={() => onCancel(id)}>
+          Отмена
+        </button>
+      </td>
+    </tr>
+  );
+}
+
+function ReadOnlyRow({ id, word, onEditClick, onDeleteClick }) {
+  return (
+    <tr>
+      {['english', 'transcription', 'russian'].map((property) => (
+        <td key={property}>{word[property]}</td>
+      ))}
+      <td>
+        <button type="button" className="change-button" onClick={() => onEditClick(id)}>
+          Изменить
+        </button>
+        <button type="button" className="delete-button" onClick={() => onDeleteClick(id)}>
+          Удалить
+        </button>
+      </td>
+    </tr>
+  );
+}
+
+function WordList({ words }) {
+  const [editingId, setEditingId] = useState(null);
+  const { updateWord, deleteWord, addWord, loading, error } = useContext(WordsContext);
+  const [message, setMessage] = useState('');
 
   const displayMessage = (msg) => {
     setMessage(msg);
@@ -18,125 +132,83 @@ const Words = ({ data }) => {
     }, 3000);
   };
 
-  const toggleEditMode = (index) => {
-    if (!isEditMode) {
-      const edited = data.map((word, i) => {
-        const editedWord = { ...word };
-        editedWords[i] = editedWord;
-        return editedWord;
-      });
-      setEditedWords(edited);
-    }
-    setIsEditMode(!isEditMode);
+  const handleSubmit = (newWord) => {
+    addWord(newWord);
+    displayMessage(`Слово "${newWord.english}" успешно добавлено`);
   };
 
-  const handleInputChange = (event, index, property) => {
-    const value = event.target.value;
-    setEditedWords((prev) =>
-      prev.map((word, i) => {
-        if (i === index) {
-          const editedWord = { ...word, [property]: value };
-          return editedWord;
-        }
-        return word;
-      }),
+  const onSaveClick = (id, editedWord) => {
+    console.log('Изменённое слово:', editedWord);
+    updateWord({ ...editedWord, id });
+    setEditingId(null);
+    displayMessage(`Слово "${editedWord.english}" успешно обновлено`);
+  };
+
+  const onCancelClick = (id) => {
+    setEditingId(null);
+  };
+
+  const onDeleteClick = (id) => {
+    console.log(
+      'Удаление слова:',
+      words.find((word) => word.id === id),
     );
-    setButtonDisabled((prev) =>
-      prev.map((disabled, i) =>
-        i === index ? value.trim() === '' || value.trim() === data[index][property] : disabled,
-      ),
-    );
-  };
-
-  const handleSaveClick = () => {
-    if (buttonDisabled.some((disabled) => disabled)) {
-      displayMessage('Ошибка: одно или несколько полей заполнены некорректнo');
-    } else {
-      console.log('Измененные слова:', editedWords);
-      displayMessage('Изменения успешно сохранены');
-      setIsEditMode(false);
-    }
-  };
-
-  const handleCancelClick = () => {
-    setEditedWords(data.slice());
-    setIsEditMode(false);
-  };
-
-  const renderRows = () => {
-    return data.map((word, index) => {
-      const editedWord = editedWords[index];
-      const borderColor = buttonDisabled[index] ? 'red' : '';
-
-      return (
-        <tr key={index}>
-          {['english', 'transcription', 'russian'].map((property) => (
-            <td key={property}>
-              {isEditMode ? (
-                <input
-                  type="text"
-                  value={editedWord[property]}
-                  onChange={(e) => handleInputChange(e, index, property)}
-                  style={{ borderColor }}
-                />
-              ) : (
-                word[property]
-              )}
-            </td>
-          ))}
-          <td>
-            {isEditMode ? (
-              <>
-                <button
-                  className={`saveBtn${buttonDisabled[index] ? ' disabled' : ''}`}
-                  onClick={handleSaveClick}
-                  disabled={buttonDisabled[index]}>
-                  Сохранить
-                </button>
-                <button className="cancelBtn" onClick={handleCancelClick}>
-                  Отмена
-                </button>
-              </>
-            ) : (
-              <button
-                className="change-button"
-                type="button"
-                title="Редактировать слово"
-                onClick={() => toggleEditMode(index)}>
-                Изменить
-              </button>
-            )}
-            <button className="delete-button" title="Удалить слово">
-              Удалить
-            </button>
-          </td>
-        </tr>
-      );
-    });
+    deleteWord(id);
+    displayMessage(`Слово успешно удалено`);
   };
 
   return (
     <>
-      {message && (
-        <div className="MessageContainer">
-          <div className="Message">{message}</div>
-        </div>
+      {error && (
+        <Error message="Произошла ошибка при получении данных. Пожалуйста, обновите страницу" />
       )}
-      <div className="List">
-        <table>
-          <thead>
-            <tr>
-              <th>Слово</th>
-              <th>Транскрипция</th>
-              <th>Перевод</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>{renderRows()}</tbody>
-        </table>
-      </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          {message && (
+            <div className="MessageContainer">
+              <div className="Message">{message}</div>
+            </div>
+          )}
+          <div className="List">
+            <table>
+              <thead>
+                <tr>
+                  <th>Слово</th>
+                  <th>Транскрипция</th>
+                  <th>Перевод</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <AddWordRow onSubmit={handleSubmit} />
+                {(Array.isArray(words) ? words : []).map((word) =>
+                  editingId === word.id ? (
+                    <WordRow
+                      key={word.id}
+                      id={word.id}
+                      word={word}
+                      onSave={onSaveClick}
+                      onCancel={onCancelClick}
+                    />
+                  ) : (
+                    <ReadOnlyRow
+                      key={word.id}
+                      id={word.id}
+                      word={word}
+                      onEditClick={setEditingId}
+                      onDeleteClick={onDeleteClick}
+                    />
+                  ),
+                )}
+              </tbody>
+            </table>
+          </div>
+        </>
+      )}
     </>
   );
-};
+}
 
-export default Words;
+export default WordList;
