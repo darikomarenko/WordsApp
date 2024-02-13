@@ -21,7 +21,8 @@ export const WordsContextProvider = ({ children }) => {
     const fetchWords = async () => {
       setLoading(true);
       try {
-        const response = await fetch('https://itgirlschool.justmakeit.ru/api/words');
+        const response = await fetch('/api/words');
+        console.log(response);
         const data = await response.json();
         setWords(data);
         setLoading(false);
@@ -36,7 +37,7 @@ export const WordsContextProvider = ({ children }) => {
 
   const addWord = async (newWord, onSuccess) => {
     try {
-      const response = await fetch('/words/add', {
+      const response = await fetch('/api/words/add', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,16 +57,13 @@ export const WordsContextProvider = ({ children }) => {
 
   const updateWord = async (wordToUpdate) => {
     try {
-      const response = await fetch(
-        `https://itgirlschool.justmakeit.ru/api/words/${wordToUpdate.id}/update`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(wordToUpdate),
+      const response = await fetch(`/api/words/${wordToUpdate.id}/update`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        body: JSON.stringify(wordToUpdate),
+      });
       const data = await response.json();
       const updatedWords = words.map((word) => (word.id === data.id ? data : word));
       setWords(updatedWords);
@@ -77,7 +75,7 @@ export const WordsContextProvider = ({ children }) => {
 
   const deleteWord = async (wordId) => {
     try {
-      await fetch(`https://itgirlschool.justmakeit.ru/api/words/${wordId}/delete`, {
+      await fetch(`/api/words/${wordId}/delete`, {
         method: 'POST',
       });
       const updatedWords = words.filter((word) => word.id !== wordId);
@@ -91,7 +89,7 @@ export const WordsContextProvider = ({ children }) => {
   const getWordById = async (wordId) => {
     setLoading(true);
     try {
-      const response = await fetch(`https://itgirlschool.justmakeit.ru/api/words/${wordId}`);
+      const response = await fetch(`/api/words/${wordId}`);
       const data = await response.json();
       setLoading(false);
       return data;
