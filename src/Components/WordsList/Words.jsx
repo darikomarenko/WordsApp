@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { inject, observer } from 'mobx-react';
 import './wordslist.css';
 
 const Words = ({ data }) => {
