@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from './components/Header/Header';
-import Footer from './components/Footer/Footer';
-import Game from './components/Game/Game';
+import Header from './Components/Header/Header';
+import Footer from './Components/Footer/Footer';
+import Game from './Components/Game/Game';
 import Error from './Components/Error';
 import Instruction from './Components/Instruction';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
