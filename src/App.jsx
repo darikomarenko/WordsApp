@@ -5,7 +5,7 @@ import Game from './Components/Game/Game';
 import Error from './Components/Error';
 import Instruction from './Components/Instruction';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import wordStore from './store/Words';
+import wordStore from './store/WordStore';
 import { Provider } from 'mobx-react';
 import MainPage from './Components/MainPage/MainPage';
 

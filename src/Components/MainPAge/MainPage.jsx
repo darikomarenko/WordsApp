@@ -16,8 +16,8 @@ const MainPage = inject('wordStore')(
     }, [wordStore]);
 
     return (
-      <div className="MainPage">
-        <h1>Список слов</h1>
+      <div>
+        <h1 className="title">Список слов</h1>
         <AddWordForm />
         <WordsList />
       </div>
